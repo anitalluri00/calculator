@@ -1,1 +1,63 @@
-body { font-family: Arial; }
+/* static/style.css */
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+}
+
+h1, h2 {
+    margin-bottom: 10px;
+}
+
+section {
+    margin: 30px auto;
+    padding: 20px;
+    max-width: 400px;
+    background: var(--bg);
+    border-radius: 10px;
+    box-shadow: 0 0 10px var(--shadow);
+}
+
+input, select, button {
+    width: 80%;
+    margin: 10px 0;
+    padding: 8px;
+    font-size: 1rem;
+}
+
+button {
+    cursor: pointer;
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: none;
+    border-radius: 5px;
+}
+
+.theme-toggle {
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+/* Light Theme */
+:root {
+    --bg: #ffffff;
+    --text: #000000;
+    --button-bg: #007bff;
+    --button-text: #ffffff;
+    --shadow: #ccc;
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+    --bg: #222831;
+    --text: #eeeeee;
+    --button-bg: #00adb5;
+    --button-text: #222831;
+    --shadow: #393e46;
+}
+
+body, input, select, button, div {
+    color: var(--text);
+    background: var(--bg);
+}
