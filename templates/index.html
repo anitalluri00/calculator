@@ -1,72 +1,99 @@
-<!-- templates/index.html -->
-
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multi-Mode Calculator</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <title>Calculator App</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="theme-toggle">
-        <button id="theme-button">Toggle Theme 🌗</button>
+    <div class="container">
+        <h1>Scientific & Basic Calculator</h1>
+
+        <!-- Tabs for Calculator Types -->
+        <div class="tabs">
+            <button id="basicCalcTab" onclick="showBasicCalc()">Basic Calculator</button>
+            <button id="scientificCalcTab" onclick="showScientificCalc()">Scientific Calculator</button>
+        </div>
+
+        <!-- Basic Calculator Form -->
+        <div id="basicCalc" class="calc-form">
+            <h2>Basic Calculator</h2>
+            <input type="text" id="basicExpression" placeholder="Enter expression (e.g., 5 + 3)">
+            <button onclick="calculateBasic()">Calculate</button>
+            <div id="basicResult"></div>
+        </div>
+
+        <!-- Scientific Calculator Form -->
+        <div id="scientificCalc" class="calc-form" style="display: none;">
+            <h2>Scientific Calculator</h2>
+            <input type="text" id="scientificExpression" placeholder="Enter expression (e.g., sin(pi/2))">
+            <select id="mode">
+                <option value="deg">Degrees</option>
+                <option value="rad">Radians</option>
+            </select>
+            <button onclick="calculateScientific()">Calculate</button>
+            <div id="scientificResult"></div>
+        </div>
+
+        <!-- Conversion & Currency Sections -->
+        <!-- Add your other forms here, like for currency conversion or unit conversion -->
     </div>
 
-    <h1>Multi-Mode Calculator</h1>
+    <script>
+        // Switch between Basic and Scientific Calculators
+        function showBasicCalc() {
+            document.getElementById('basicCalc').style.display = 'block';
+            document.getElementById('scientificCalc').style.display = 'none';
+            document.getElementById('basicCalcTab').classList.add('active');
+            document.getElementById('scientificCalcTab').classList.remove('active');
+        }
 
-    <!-- Scientific Calculator Section -->
-    <section class="calculator">
-        <h2>Scientific Calculator</h2>
-        <input type="text" id="calc-input" placeholder="Enter expression...">
-        <select id="mode-select">
-            <option value="deg">Degree</option>
-            <option value="rad">Radian</option>
-        </select>
-        <button onclick="calculate()">Calculate</button>
-        <div id="calc-result"></div>
-    </section>
+        function showScientificCalc() {
+            document.getElementById('basicCalc').style.display = 'none';
+            document.getElementById('scientificCalc').style.display = 'block';
+            document.getElementById('scientificCalcTab').classList.add('active');
+            document.getElementById('basicCalcTab').classList.remove('active');
+        }
 
-    <!-- Unit Converter Section -->
-    <section class="converter">
-        <h2>Unit Converter</h2>
-        <input type="number" id="unit-value" placeholder="Enter value...">
-        <select id="unit-category" onchange="populateUnits()">
-            <option value="length">Length</option>
-            <option value="weight">Weight</option>
-            <option value="area">Area</option>
-            <option value="volume">Volume</option>
-        </select>
-        <select id="from-unit"></select>
-        <select id="to-unit"></select>
-        <button onclick="convertUnits()">Convert</button>
-        <div id="unit-result"></div>
-    </section>
+        // Basic Calculator Calculation
+        function calculateBasic() {
+            const expression = document.getElementById('basicExpression').value;
+            fetch('/basic_calculate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ expression: expression })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('basicResult').textContent = `Result: ${data.result}`;
+            })
+            .catch(error => {
+                document.getElementById('basicResult').textContent = `Error: ${error}`;
+            });
+        }
 
-    <!-- Currency Converter Section -->
-    <section class="currency">
-        <h2>Currency Converter</h2>
-        <input type="number" id="curr-amount" placeholder="Enter amount...">
-        <select id="from-curr">
-            <option value="USD">USD</option>
-            <option value="INR">INR</option>
-            <option value="EUR">EUR</option>
-            <option value="GBP">GBP</option>
-            <option value="JPY">JPY</option>
-            <option value="AUD">AUD</option>
-        </select>
-        <select id="to-curr">
-            <option value="INR">INR</option>
-            <option value="USD">USD</option>
-            <option value="EUR">EUR</option>
-            <option value="GBP">GBP</option>
-            <option value="JPY">JPY</option>
-            <option value="AUD">AUD</option>
-        </select>
-        <button onclick="convertCurrency()">Convert</button>
-        <div id="curr-result"></div>
-    </section>
-
-    <script src="/static/script.js"></script>
+        // Scientific Calculator Calculation
+        function calculateScientific() {
+            const expression = document.getElementById('scientificExpression').value;
+            const mode = document.getElementById('mode').value;
+            fetch('/calculate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ expression: expression, mode: mode })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('scientificResult').textContent = `Result: ${data.result}`;
+            })
+            .catch(error => {
+                document.getElementById('scientificResult').textContent = `Error: ${error}`;
+            });
+        }
+    </script>
 </body>
 </html>
