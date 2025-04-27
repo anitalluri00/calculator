@@ -1,1 +1,72 @@
-<html><head><title>Calculator</title></head><body><h1>Calculator UI</h1></body></html>
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Mode Calculator</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="theme-toggle">
+        <button id="theme-button">Toggle Theme 🌗</button>
+    </div>
+
+    <h1>Multi-Mode Calculator</h1>
+
+    <!-- Scientific Calculator Section -->
+    <section class="calculator">
+        <h2>Scientific Calculator</h2>
+        <input type="text" id="calc-input" placeholder="Enter expression...">
+        <select id="mode-select">
+            <option value="deg">Degree</option>
+            <option value="rad">Radian</option>
+        </select>
+        <button onclick="calculate()">Calculate</button>
+        <div id="calc-result"></div>
+    </section>
+
+    <!-- Unit Converter Section -->
+    <section class="converter">
+        <h2>Unit Converter</h2>
+        <input type="number" id="unit-value" placeholder="Enter value...">
+        <select id="unit-category" onchange="populateUnits()">
+            <option value="length">Length</option>
+            <option value="weight">Weight</option>
+            <option value="area">Area</option>
+            <option value="volume">Volume</option>
+        </select>
+        <select id="from-unit"></select>
+        <select id="to-unit"></select>
+        <button onclick="convertUnits()">Convert</button>
+        <div id="unit-result"></div>
+    </section>
+
+    <!-- Currency Converter Section -->
+    <section class="currency">
+        <h2>Currency Converter</h2>
+        <input type="number" id="curr-amount" placeholder="Enter amount...">
+        <select id="from-curr">
+            <option value="USD">USD</option>
+            <option value="INR">INR</option>
+            <option value="EUR">EUR</option>
+            <option value="GBP">GBP</option>
+            <option value="JPY">JPY</option>
+            <option value="AUD">AUD</option>
+        </select>
+        <select id="to-curr">
+            <option value="INR">INR</option>
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="GBP">GBP</option>
+            <option value="JPY">JPY</option>
+            <option value="AUD">AUD</option>
+        </select>
+        <button onclick="convertCurrency()">Convert</button>
+        <div id="curr-result"></div>
+    </section>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
